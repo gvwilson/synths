@@ -1,3 +1,4 @@
 *~
 *.db
 *.html
+resources/bram-traces/

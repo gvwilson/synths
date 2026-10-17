@@ -38,3 +38,7 @@ behavior.
 -   Use minutes for all calculations.
 -   Store datetime objects in the SQLite database. If durations must be stored,
     store them in minutes.
+
+<!-- bram:start -->
+@.claude/bram-conventions.md
+<!-- bram:end -->

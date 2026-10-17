@@ -1,0 +1,51 @@
+{
+  "kind": "approved",
+  "ids": [
+    "airport-simulator",
+    "airport-makefile",
+    "airport-instructions"
+  ],
+  "items": [
+    {
+      "_citationsMissing": true,
+      "after": "Create `airport.py`, a single-file airport simulator matching `calls.py`'s structure\nand conventions: no type annotations, short docstrings, named constants at the top,\nimports at the top, minutes for all time math, datetimes in SQLite, durations in minutes.\n\nModel:\n\n- **Airlines** — 4, each with a code and name.\n- **Flights** — `asimpy` `Process`. Each visits the airport once: arrives from an\n  `origin`, turns around, departs to a `destination`. Carries scheduled and actual\n  arrival/departure times, a seat `capacity`, and `arrival_delay_min` / `departure_delay_min`.\n- **Passengers** — data, not processes. A passenger makes one short trip; flights are\n  the repeating events. Three kinds:\n  - `originating` — arrive directly, board a departure\n  - `connecting` — arrive on one flight, board another\n  - `terminating` — arrive on a flight, leave the airport\n- **Seat limits** — enforced. A passenger who reaches a full flight is bumped to the\n  next flight to the same destination and a `mishap` row is recorded.\n- **Delays** — baseline small probability per flight; scenarios scale it.\n- **Missed connections** — a connecting passenger whose inbound lands so late that\n  `actual_arrival + MCT > departure` misses and is rebooked on the next flight to the\n  same destination.\n\nDecisions made:\n\n- Passengers as data rather than `Process` — rejected per-passenger processes because\n  a journey is one-shot, not repeating. [chosen]\n- Seat limits enforced via bump-to-next-flight — rejected: treating capacity as a\n  recorded attribute only (user explicitly asked for enforcement). [chosen]\n- Scenarios `plain`, `weather`, `strike`, `rush`, `storm` — user-confirmed. [chosen]\n- Name locale `en_CA` (Canadian English) — user-requested. [chosen]\n\nOutput:\n\n- SQLite tables: `airline`, `flight`, `passenger`, `mishap`.\n- Six `altair` plots per scenario, saved like `calls.py`.\n\nTable shapes (simplified):\n\n- `airline` — `airline_id`, `name`\n- `flight` — `flight_id`, `airline_id`, `origin`, `destination`, `sched_arrival`,\n  `actual_arrival`, `sched_departure`, `actual_departure`, `arrival_delay_min`,\n  `departure_delay_min`, `capacity`\n- `passenger` — `passenger_id`, `family`, `personal`, `kind`, `origin`, `destination`,\n  `arrival_flight_id`, `departure_flight_id`, `arrived_at`, `departed_at`\n- `mishap` — `mishap_id`, `passenger_id`, `missed_flight_id`, `rebooked_flight_id`,\n  `missed_by_min`, `wait_min`\n\nCLI: `--seed`, `--shock {plain,weather,strike,rush,storm}`.",
+      "before": "No airport simulator exists. The repo contains `calls.py`, a ~660-line discrete-event\nsimulator of a call center that uses `asimpy` (`Environment`, `Process`, `Interrupt`)\nfor events, `polars` for data, `altair` for plots, and `sqlalchemy` to write SQLite.\n`CLAUDE.md` names `airport.py` as a planned file; it has not been created.",
+      "citations": [],
+      "feedback": "",
+      "files": [
+        "airport.py"
+      ],
+      "id": "airport-simulator",
+      "status": "proposed"
+    },
+    {
+      "_citationsMissing": true,
+      "after": "Add `airport` targets mirroring the `calls` targets:\n\n- `airport` — runs `airport-plain airport-weather airport-strike airport-rush airport-storm`\n- `airport-plain` — `python airport.py`\n- `airport-weather` — `python airport.py --shock weather`\n- `airport-strike` — `python airport.py --shock strike`\n- `airport-rush` — `python airport.py --shock rush`\n- `airport-storm` — `python airport.py --shock storm`",
+      "before": "`Makefile` has `calls` and `calls-*` targets running `python calls.py [--shock ...]`,\nplus `check`, `fix`, `format`, `clean`, and `commands`. No airport targets exist.",
+      "citations": [],
+      "feedback": "",
+      "files": [
+        "Makefile"
+      ],
+      "id": "airport-makefile",
+      "status": "proposed"
+    },
+    {
+      "_citationsMissing": true,
+      "after": "Create `airport-instructions.md` paralleling `calls-instructions.md`:\n\n- Explain that the basic simulation is in the `plain` database and the other four\n  databases show shocks (`weather`, `strike`, `rush`, `storm`).\n- Document the `airline`, `flight`, `passenger`, and `mishap` tables with a\n  field / type / purpose table, matching `calls-instructions.md`'s format.\n- Note that duration columns (delays, wait times) are stored in minutes.",
+      "before": "`calls-instructions.md` is the call-center workshop exercise: it explains the plain\nbaseline plus four shocked databases and lists the schema (table/field/type/purpose).\nThere is no equivalent for the airport.",
+      "citations": [],
+      "feedback": "",
+      "files": [
+        "airport-instructions.md"
+      ],
+      "id": "airport-instructions",
+      "status": "proposed"
+    }
+  ],
+  "issuedAtMs": 1792247011804,
+  "source": "worklist-action-command",
+  "consumedAtMs": null,
+  "interruptedAtMs": null,
+  "commitToo": false
+}
