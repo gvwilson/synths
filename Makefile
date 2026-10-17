@@ -1,29 +1,29 @@
 .PHONY: docs
 all: commands
 
-SCRIPT=sim.py
+SCRIPT=calls.py
 
-## scenarios: create all scenarios
-scenarios: plain followup newclients overload special
+## calls: create all scenarios
+calls: calls-plain calls-followup calls-newclients calls-overload calls-special
 
-## plain: create with no shocks to the system
-plain:
+## calls-plain: create with no shocks to the system
+calls-plain:
 	@python ${SCRIPT}
 
-## followup: create with increase in followup time
-followup:
+## calls-followup: create with increase in followup time
+calls-followup:
 	@python ${SCRIPT} --shock followup
 
-## overload: agents have too much work
-overload:
+## calls-overload: agents have too much work
+calls-overload:
 	@python ${SCRIPT} --shock overload
 
-## newclients: create with new clients
-newclients:
+## calls-newclients: create with new clients
+calls-newclients:
 	@python ${SCRIPT} --shock newclients
 
-## special: create with special offer
-special:
+## calls-special: create with special offer
+calls-special:
 	@python ${SCRIPT} --shock special
 
 ## ---: ---

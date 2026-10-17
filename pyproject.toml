@@ -1,7 +1,7 @@
 [project]
-name = "calls"
-version = "0.1.0"
-description = "Synthetic data generation to simulate a call center."
+name = "synths"
+version = "0.2.0"
+description = "Synthetic data generators for teaching."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
